@@ -13,7 +13,7 @@ let chatids = [];
 
 (async () => {
   setInterval(async function () {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
 
     try {
       const page = await browser.newPage();
@@ -58,12 +58,14 @@ bot.start((ctx) => {
 
   if (items.length > 0) {
     ctx.reply('Here is a list of current posts 🧾: ');
-    chatids.map((chatid) => {
-      items.map((item) =>
-        bot.telegram.sendMessage(chatid, item, {
+
+    items.map((item) => {
+      let postUrl = `https://medium.com${item}`;
+      chatids.map((chatid) => {
+        bot.telegram.sendMessage(chatid, postUrl, {
           disable_web_page_preview: true,
-        })
-      );
+        });
+      });
     });
   }
 
