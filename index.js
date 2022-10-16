@@ -14,20 +14,17 @@ let chatids = [];
 (async () => {
   setInterval(async function () {
     const browser = await puppeteer.launch({ headless: false });
-    console.log('items length: ', items.length);
 
     try {
-      console.log('I am doing my 0.5 minutes check');
       const page = await browser.newPage();
       await page.goto('https://medium.com/islamic-coin', { waitUntil: 'domcontentloaded' });
       await autoScroll(page);
+
       const hrefs = await page.$$eval('a', (anchors) =>
         anchors
           .filter((a) => a.getAttribute('aria-label') == 'Post Preview Title')
           .map((link) => link.getAttribute('href'))
       );
-
-      console.log('hrefs length: ', hrefs.length);
 
       if (hrefs.length > items.length) {
         let difference = hrefs.filter((x) => !items.includes(x));
@@ -39,16 +36,10 @@ let chatids = [];
             });
           });
         });
+
         console.log('difference length: ', difference.length);
         console.log('difference: ', difference);
       }
-      // else {
-      //   chatids.map((chatid) => {
-      //     bot.telegram.sendMessage(chatid, 'no new posts', {
-      //       disable_web_page_preview: true,
-      //     });
-      //   });
-      // }
 
       items = hrefs;
     } catch (e) {
@@ -80,10 +71,10 @@ bot.start((ctx) => {
 async function autoScroll(page) {
   await page.evaluate(async () => {
     await new Promise((resolve, reject) => {
-      var totalHeight = 0;
-      var distance = 100;
-      var timer = setInterval(() => {
-        var scrollHeight = document.body.scrollHeight;
+      let totalHeight = 0;
+      let distance = 100;
+      let timer = setInterval(() => {
+        let scrollHeight = document.body.scrollHeight;
         window.scrollBy(0, distance);
         totalHeight += distance;
 
