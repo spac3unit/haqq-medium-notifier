@@ -53,17 +53,19 @@ let chatids = [];
 bot.start((ctx) => {
   chatids.push(ctx.from.id);
   ctx.reply('Welcome! 👋');
-  ctx.reply('Here is a list of current posts 🧾: ');
-
-  chatids.map((chatid) => {
-    items.map((item) =>
-      bot.telegram.sendMessage(chatid, item, {
-        disable_web_page_preview: true,
-      })
-    );
-  });
 
   ctx.reply("⏰ I'll let you know if there are any new posts in Haqq Blog");
+
+  if (items.length > 0) {
+    ctx.reply('Here is a list of current posts 🧾: ');
+    chatids.map((chatid) => {
+      items.map((item) =>
+        bot.telegram.sendMessage(chatid, item, {
+          disable_web_page_preview: true,
+        })
+      );
+    });
+  }
 
   console.log('chat_id: ', ctx.from.id);
 });
