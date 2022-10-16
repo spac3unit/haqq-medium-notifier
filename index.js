@@ -13,7 +13,7 @@ let chatids = [];
 
 (async () => {
   setInterval(async function () {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
 
     try {
       const page = await browser.newPage();
