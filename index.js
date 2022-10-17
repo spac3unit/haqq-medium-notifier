@@ -61,10 +61,8 @@ bot.start((ctx) => {
 
     items.map((item) => {
       let postUrl = `https://medium.com${item}`;
-      chatids.map((chatid) => {
-        bot.telegram.sendMessage(chatid, postUrl, {
-          disable_web_page_preview: true,
-        });
+      bot.telegram.sendMessage(ctx.from.id, postUrl, {
+        disable_web_page_preview: true,
       });
     });
   }
